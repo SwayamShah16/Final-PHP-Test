@@ -2,33 +2,31 @@
 include 'db.php';
 require 'vendor/autoload.php';
 
-$result = $conn -> query("select * from products;");
-
+$result = $conn -> query("select * from products");
 $pdf = new TCPDF();
-$pdf = AddPage();
-$pdf = setFont('times','I','12');
+$pdf -> AddPage();
+$pdf -> setFont('times','I','14');
 
-$html ='<table>
-    <tr>
-    <td>Product Name</td>
-    <td>Product Category</td>
-    <td>Product Price</td>
-    <td>Product Quantity</td>
-    <td>Product Description</td>
-    </tr>';
+$html = '<table>
+<tr>
+<td>Product Name</td>
+<td>Product Category</td>
+<td>Price</td>
+<td>Quantity</td>
+</tr>';
 
 while($row = $result -> fetch_assoc()){
     $html .= '<tr>
-    <td>'.<?= $row["pname"]?>.'</td>
-    <td>'.<?= $row["category"]?>.'</td>
-    <td>'.<?= $row["price"]?>.'</td>
-    <td>'.<?= $row["quantity"]?>.'</td>
-    <td>'.<?= $row["description"]?>.'</td>
+    <td>'. $row["pname"] .'</td>
+    <td>'. $row["category"].'</td>
+    <td>'. $row["price"] .'</td>
+    <td>'. $row["quantity"].'</td>
     </tr>';
 }
 
 $html .= '</table>';
 
 $pdf -> writeHtml($html,true,false,true,false,'');
-$pdf -> Output("products.pdf","D");
+$pdf -> Output('product.pdf','D');
+
 ?>
